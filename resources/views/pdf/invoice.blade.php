@@ -19,7 +19,7 @@
 <body>
     <div class="header">
         <p class="title">KUITANSI PEMBAYARAN RESMI</p>
-        <p class="subtitle">Pesantren Teknologi Al-Fulan | Tlp: (021) 12345678</p>
+        <p class="subtitle">Madrasah Teknologi Al-Fulan | Tlp: (021) 12345678</p>
     </div>
 
     <div class="row">

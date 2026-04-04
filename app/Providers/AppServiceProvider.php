@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Student;
 use App\Observers\StudentObserver;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') === 'production' || request()->server('HTTP_X_FORWARDED_PROTO') == 'https') {
+            URL::forceScheme('https');
+        }
         Student::observe(StudentObserver::class);
     }
 }

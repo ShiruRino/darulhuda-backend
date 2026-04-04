@@ -74,7 +74,7 @@ class InvoiceController extends Controller
 
         // Template pesan yang akan otomatis terisi di WA
         $message = "Assalamu'alaikum Admin,\n\n";
-        $message .= "Saya ingin konfirmasi pembayaran tagihan pesantren.\n";
+        $message .= "Saya ingin konfirmasi pembayaran tagihan madrasah.\n";
         $message .= "Nama Santri: *$nama_anak*\n";
         $message .= "Kelas: *$kelas*\n";
         $message .= "Pembayaran: *$invoice->title*\n";

@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'check.student' => \App\Http\Middleware\CheckStudentAccess::class,
         ]);
+        $middleware->redirectUsersTo('admin/dashboard');
 
     })
     ->withExceptions(function (Exceptions $exceptions) {

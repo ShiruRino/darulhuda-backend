@@ -3,7 +3,7 @@
 @section('title', 'Dashboard Admin')
 
 @section('content_header')
-    <h1>Dashboard Sistem Pesantren</h1>
+    <h1>Dashboard Sistem Madrasah</h1>
 @stop
 
 @section('content')

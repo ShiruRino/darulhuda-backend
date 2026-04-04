@@ -67,4 +67,5 @@ class ParentUserController extends Controller
         User::findOrFail($id)->delete();
         return back()->with('success', 'Akun orang tua berhasil dihapus dari sistem.');
     }
+    
 }

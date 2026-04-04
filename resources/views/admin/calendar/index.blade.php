@@ -174,7 +174,7 @@
                                                 <label>Kategori <span class="text-danger">*</span></label>
                                                 <select name="type" class="form-control" required>
                                                     <option value="event" {{ $event->type == 'event' ? 'selected' : '' }}>Kegiatan Biasa</option>
-                                                    <option value="holiday" {{ $event->type == 'holiday' ? 'selected' : '' }}>Libur Nasional / Pesantren</option>
+                                                    <option value="holiday" {{ $event->type == 'holiday' ? 'selected' : '' }}>Libur Nasional / Madrasah</option>
                                                     <option value="exam" {{ $event->type == 'exam' ? 'selected' : '' }}>Ujian (UTS/UAS)</option>
                                                     <option value="other" {{ $event->type == 'other' ? 'selected' : '' }}>Lainnya</option>
                                                 </select>
@@ -242,7 +242,7 @@
                             <label>Kategori <span class="text-danger">*</span></label>
                             <select name="type" class="form-control" required>
                                 <option value="event">Kegiatan Biasa</option>
-                                <option value="holiday">Libur Nasional / Pesantren</option>
+                                <option value="holiday">Libur Nasional / Madrasah</option>
                                 <option value="exam">Ujian (UTS/UAS/Tahfidz)</option>
                                 <option value="other">Lainnya</option>
                             </select>

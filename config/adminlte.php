@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Sistem Pesantren',
+    'title' => 'Sistem Madrasah',
     'title_prefix' => 'Admin | ',
 
     /*
@@ -62,7 +62,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>Pesantren',
+    'logo' => '<b>Admin</b>Madrasah',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -258,7 +258,7 @@ return [
     'use_route_url' => false,
     'dashboard_url' => 'home',
     'logout_method' => 'POST',
-    'logout_url' => 'logout', // Sesuaikan dengan nama route logout web kamu nantinya
+    'logout_url' => 'admin/logout', // Sesuaikan dengan nama route logout web kamu nantinya
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
@@ -299,90 +299,81 @@ return [
     */
 
     'menu' => [
-        // Pencarian & Fullscreen Widget (Bawaan)
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+        // Navbar items:
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
-        // --- MENU UTAMA ---
-        ['header' => 'MENU UTAMA'],
+        // Sidebar items:
         [
-            'text'   => 'Dashboard',
-            'url'    => 'admin/dashboard',
-            'icon'   => 'fas fa-fw fa-tachometer-alt',
-            'active' => ['admin/dashboard'],
+            'text'        => 'Dashboard',
+            'route'       => 'admin.dashboard',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
         ],
 
-        // --- AKADEMIK & KESISWAAN ---
-        ['header' => 'AKADEMIK & KESISWAAN'],
+        ['header' => 'MASTER DATA'],
         [
-            'text'   => 'Data Santri',
-            'url'    => 'admin/students', // Nanti bisa kamu buat CRUD web-nya
-            'icon'   => 'fas fa-fw fa-user-graduate',
-            'active' => ['admin/students*'],
+            'text' => 'Data Santri',
+            'route'  => 'admin.students.index',
+            'icon' => 'fas fa-fw fa-user-graduate',
         ],
         [
-            'text'   => 'Manajemen Absensi',
-            'url'    => 'admin/attendances',
-            'icon'   => 'fas fa-fw fa-user-check',
-            'active' => ['admin/attendances*'],
-        ],
-        [
-            'text'   => 'Nilai Akademik',
-            'url'    => 'admin/grades',
-            'icon'   => 'fas fa-fw fa-graduation-cap',
-            'active' => ['admin/grades*'],
-        ],
-        [
-            'text'   => 'Kalender Akademik',
-            'url'    => 'admin/calendar',
-            'icon'   => 'fas fa-fw fa-calendar-alt',
-            'active' => ['admin/calendar*'],
+            'text' => 'Data Wali Santri',
+            'route'  => 'admin.parents.index',
+            'icon' => 'fas fa-fw fa-users',
         ],
 
-        // --- KEUANGAN ---
-        ['header' => 'MODUL KEUANGAN'],
+        ['header' => 'AKADEMIK & KEDISIPLINAN'],
         [
-            'text'   => 'Data Pembayaran',
-            'url'    => 'admin/payments',
-            'icon'   => 'fas fa-fw fa-file-invoice-dollar',
-            'active' => ['admin/payments*'],
+            'text' => 'Absensi Kehadiran',
+            'route'  => 'admin.attendances.index',
+            'icon' => 'fas fa-fw fa-calendar-check',
+        ],
+        [
+            'text' => 'Nilai Rapor',
+            'route'  => 'admin.grades.index',
+            'icon' => 'fas fa-fw fa-star',
+        ],
+        [
+            'text' => 'Catatan Pembinaan',
+            'route'  => 'admin.guidances.index',
+            'icon' => 'fas fa-fw fa-clipboard-list',
+        ],
+        [
+            'text' => 'Kalender Akademik',
+            'route'  => 'admin.calendar.index',
+            'icon' => 'fas fa-fw fa-calendar-alt',
         ],
 
-        // --- INFORMASI & LAYANAN ---
-        ['header' => 'INFORMASI & LAYANAN'],
+        ['header' => 'KEUANGAN'],
         [
-            'text'   => 'Pengumuman',
-            'url'    => 'admin/announcements',
-            'icon'   => 'fas fa-fw fa-bullhorn',
-            'active' => ['admin/announcements*'],
-        ],
-        [
-            'text'   => 'Kritik & Saran',
-            'url'    => 'admin/feedbacks', // Nanti bisa kamu buat list web-nya
-            'icon'   => 'fas fa-fw fa-comments',
-            'active' => ['admin/feedbacks*'],
+            'text' => 'Pembayaran & Tagihan',
+            'route'  => 'admin.payments.index',
+            'icon' => 'fas fa-fw fa-wallet',
         ],
 
-        // --- PENGGUNA & PENGATURAN ---
-        ['header' => 'MANAJEMEN PENGGUNA'],
+        ['header' => 'INTERAKSI & LAYANAN'],
         [
-            'text'   => 'Akun Orang Tua',
-            'url'    => 'admin/parents',
-            'icon'   => 'fas fa-fw fa-user-friends',
-            'active' => ['admin/parents*'],
+            'text' => 'Pengumuman',
+            'route'  => 'admin.announcements.index',
+            'icon' => 'fas fa-fw fa-bullhorn',
         ],
         [
-            'text'       => 'Logout',
-            'url'        => 'logout', // Akan menggunakan metode POST otomatis oleh AdminLTE
-            'icon'       => 'fas fa-fw fa-sign-out-alt',
-            'icon_color' => 'red',
+            'text' => 'Kritik & Saran',
+            'route'  => 'admin.feedbacks.index',
+            'icon' => 'fas fa-fw fa-comments',
+        ],
+        [
+            'text' => 'Manajemen Survei',
+            'route'  => 'admin.surveys.index',
+            'icon' => 'fas fa-fw fa-poll-h',
+        ],
+        ['header' => 'PENGATURAN'],
+        [
+            'text' => 'Akun Admin',
+            'route'  => 'admin.profile.index',
+            'icon' => 'fas fa-fw fa-user-cog',
         ],
     ],
 
