@@ -21,11 +21,11 @@ class DashboardController extends Controller
         
         if ($studentId) {
             $student = Student::where('id', $studentId)
-                              ->where('parent_id', $user->id) // Pastikan hanya bisa akses anak sendiri
+                              ->where('user_id', $user->id) // Pastikan hanya bisa akses anak sendiri
                               ->first();
         } else {
             // Default: Ambil anak pertama
-            $student = Student::where('parent_id', $user->id)->first();
+            $student = Student::where('user_id', $user->id)->first();
         }
 
         if (!$student) {
