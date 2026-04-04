@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -66,7 +67,7 @@ class InvoiceController extends Controller
 
         // --- KONFIGURASI WHATSAPP ---
         // Ganti dengan nomor WhatsApp Admin Keuangan (gunakan kode negara 62)
-        $admin_wa_number = "6281234567890"; 
+        $admin_wa_number = User::findOrFail(1)->pluck('phone_number');
         
         $nominal = 'Rp ' . number_format($invoice->amount, 0, ',', '.');
         $nama_anak = $invoice->student->name;

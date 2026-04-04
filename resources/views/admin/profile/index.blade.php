@@ -40,6 +40,17 @@
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    {{-- TAMBAHKAN KODE INI UNTUK INPUT WHATSAPP --}}
+                    <div class="form-group">
+                        <label for="phone_number"><i class="fab fa-whatsapp text-success mr-1"></i> Nomor WhatsApp (Penerima Konfirmasi SPP)</label>
+                        <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" value="{{ old('phone_number', $admin->phone_number) }}" placeholder="Contoh: 6281234567890" required>
+                        <small class="text-muted">Gunakan format <b>62</b> di awal (Contoh: 6281234567890). Jangan gunakan angka 0 agar link otomatis menuju WhatsApp berfungsi.</small>
+                        @error('phone_number')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    {{-- BATAS AKHIR TAMBAHAN --}}
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Simpan Perubahan</button>
