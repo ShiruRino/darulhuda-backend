@@ -195,7 +195,7 @@
         </div>
         <div class="card-footer clearfix">
             <div class="float-right">
-                {{ $guidances->links() }}
+                {{ $guidances->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
@@ -268,7 +268,8 @@
 @section('css')
     {{-- Memuat CSS Select2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+    {{-- PERBAIKAN: Menggunakan versi valid (1.5.2) bukan x.x.x --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css">
     <style>
         .select2-container--bootstrap4 .select2-selection--single { height: calc(2.25rem + 2px) !important; }
     </style>
@@ -283,7 +284,9 @@
             $('.select2').select2({
                 theme: 'bootstrap4',
                 placeholder: "-- Cari Nama atau NISN --",
-                allowClear: true
+                allowClear: true,
+                // PERBAIKAN: Beritahu Select2 agar menempel pada Modal, bukan pada body
+                dropdownParent: $('#modalTambah') 
             });
 
             // Auto-focus ke kolom pencarian Select2 saat modal ditambah

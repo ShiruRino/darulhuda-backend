@@ -7,55 +7,51 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
+    // Menampilkan daftar Kritik & Saran
     public function index(Request $request)
     {
-        // Panggil data feedback beserta data orang tua (user) yang mengirim
+        // Ambil relasi user (wali santri) agar nama pengirim bisa ditampilkan
         $query = Feedback::with('user');
 
-        // 1. FILTER: Pencarian berdasarkan Nama Pengirim atau Isi Pesan
+        // Fitur Pencarian (Berdasarkan isi pesan atau nama pengirim)
         $query->when($request->search, function ($q, $search) {
-            return $q->where(function ($sub) use ($search) {
-                $sub->where('message', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('name', 'like', "%{$search}%");
-                    });
-            });
+            $q->where('message', 'like', "%{$search}%")
+              ->orWhereHas('user', function ($userQuery) use ($search) {
+                  $userQuery->where('name', 'like', "%{$search}%");
+              });
         });
 
-        // 2. FILTER: Tingkat Kepuasan (satisfied / not_satisfied)
-        $query->when($request->satisfaction, function ($q, $satisfaction) {
-            return $q->where('satisfaction', $satisfaction);
+        // Filter status dibaca/belum dibaca
+        $query->when($request->has('is_read') && $request->is_read != '', function ($q) use ($request) {
+            $q->where('is_read', $request->is_read);
         });
 
-        // 3. FILTER: Status Dibaca (0 = Belum, 1 = Sudah)
-        if ($request->has('is_read') && $request->is_read !== null) {
-            $query->where('is_read', $request->is_read);
-        }
+        // Urutkan selalu dari yang terbaru masuk
+        $feedbacks = $query->orderBy('created_at', 'desc')
+                           ->paginate(15)
+                           ->appends($request->query());
 
-        // 4. SORTING: Berdasarkan tanggal (Default: Terbaru / desc)
-        $sortDir = $request->get('sort_dir', 'desc');
-        $query->orderBy('created_at', $sortDir);
-
-        // Paginasi
-        $feedbacks = $query->paginate(15)->appends($request->query());
-
-        // View akan kita buat belakangan
         return view('admin.feedbacks.index', compact('feedbacks'));
     }
 
-    // Fungsi untuk menandai bahwa pesan sudah dibaca
+    // Aksi untuk menandai pesan sudah dibaca
     public function markAsRead($id)
     {
         $feedback = Feedback::findOrFail($id);
-        $feedback->update(['is_read' => true]);
+        
+        // Ubah status menjadi true (sudah dibaca)
+        $feedback->update([
+            'is_read' => true
+        ]);
 
-        return back()->with('success', 'Masukan telah ditandai sebagai sudah dibaca.');
+        return back()->with('success', 'Pesan telah ditandai sebagai sudah dibaca.');
     }
 
-    // Fungsi untuk menghapus masukan (Opsional, jika admin ingin membersihkan data lama)
+    // Aksi untuk menghapus pesan
     public function destroy($id)
     {
         Feedback::findOrFail($id)->delete();
+        
         return back()->with('success', 'Kritik & saran berhasil dihapus.');
     }
 }

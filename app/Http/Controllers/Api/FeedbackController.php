@@ -10,16 +10,16 @@ class FeedbackController extends Controller
 {
     public function store(Request $request)
     {
-        // 1. Validasi input dari aplikasi mobile
+        // 1. Validasi input menggunakan sistem rating (1-5)
         $validator = Validator::make($request->all(), [
             'message' => 'required|string|min:10',
-            // Ubah validasi rating menjadi satisfaction dengan enum
-            'satisfaction' => 'required|in:satisfied,not_satisfied', 
+            'rating'  => 'required|integer|min:1|max:5', 
         ], [
             'message.required' => 'Kolom kritik dan saran tidak boleh kosong.',
             'message.min' => 'Kritik dan saran minimal 10 karakter.',
-            'satisfaction.required' => 'Pilihan tingkat kepuasan wajib diisi.',
-            'satisfaction.in' => 'Pilihan kepuasan tidak valid (harus satisfied atau not_satisfied).',
+            'rating.required' => 'Rating bintang wajib diisi.',
+            'rating.min' => 'Rating minimal 1 bintang.',
+            'rating.max' => 'Rating maksimal 5 bintang.',
         ]);
 
         if ($validator->fails()) {
@@ -34,13 +34,14 @@ class FeedbackController extends Controller
         $feedback = Feedback::create([
             'user_id' => $request->user()->id,
             'message' => $request->message,
-            'satisfaction' => $request->satisfaction, // Menggunakan kolom yang baru
+            'rating'  => $request->rating,
+            'is_read' => false // Setel default belum dibaca oleh admin
         ]);
 
         // 3. Kembalikan respon sukses
         return response()->json([
             'status' => 'success',
-            'message' => 'Terima kasih, masukan Anda telah berhasil dikirim.',
+            'message' => 'Terima kasih, masukan dan rating Anda telah berhasil dikirim.',
             'data' => $feedback
         ], 201);
     }

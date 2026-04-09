@@ -43,8 +43,9 @@ class DashboardController extends Controller
 
         // --- 4. DATA GRAFIK 3: Feedback (Pie Chart) ---
         // Asumsi "Belum Isi" = Total Orang Tua dikurangi jumlah feedback yang masuk
-        $puas = Feedback::where('satisfaction', 'satisfied')->count();
-        $tidakPuas = Feedback::where('satisfaction', 'not_satisfied')->count();
+        // CONTOH LOGIKA DI CONTROLLER (Pastikan sudah seperti ini):
+        $puas = Feedback::where('rating', '>=', 4)->count();
+        $tidakPuas = Feedback::where('rating', '<=', 3)->count();
         $totalOrangTua = User::where('role', 'parent')->count();
         
         $belumIsi = $totalOrangTua - ($puas + $tidakPuas);

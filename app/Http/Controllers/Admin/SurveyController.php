@@ -74,4 +74,19 @@ class SurveyController extends Controller
         Survey::findOrFail($id)->delete();
         return back()->with('success', 'Survei berhasil dihapus secara permanen.');
     }
+
+    // Menampilkan daftar responden dan jawaban survei
+    public function showResponses($id)
+    {
+        // Ambil data survei beserta pertanyaannya
+        $survey = Survey::with('questions')->findOrFail($id);
+
+        // Ambil data respons (jawaban) beserta relasi user (wali) dan detail jawabannya
+        $responses = \App\Models\SurveyResponse::with(['user', 'answers'])
+            ->where('survey_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return view('admin.surveys.responses', compact('survey', 'responses'));
+    }
 }

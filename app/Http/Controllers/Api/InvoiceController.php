@@ -66,8 +66,14 @@ class InvoiceController extends Controller
         }
 
         // --- KONFIGURASI WHATSAPP ---
-        // Ganti dengan nomor WhatsApp Admin Keuangan (gunakan kode negara 62)
-        $admin_wa_number = User::findOrFail(1)->pluck('phone_number');
+        // Cari setting nomor WA bendahara di database
+        $waSetting = \App\Models\Setting::where('key', 'wa_payment_number')->firstOrCreate([
+            'key' => 'wa_payment_number',
+            'value' => User::find(1)->phone_number
+        ]);
+        
+        // Gunakan nomor dari setting, jika belum diatur di web admin, gunakan nomor darurat ini
+        $admin_wa_number = $waSetting->value;
         
         $nominal = 'Rp ' . number_format($invoice->amount, 0, ',', '.');
         $nama_anak = $invoice->student->name;
@@ -85,7 +91,6 @@ class InvoiceController extends Controller
         // Encode pesan agar aman ditaruh di URL
         $encoded_message = urlencode($message);
         $wa_link = "https://wa.me/{$admin_wa_number}?text={$encoded_message}";
-
         // Update status menjadi pending verification (Opsional: bisa ditaruh saat admin menyetujui, tapi untuk tracking ini bagus)
         $invoice->update(['status' => 'pending_verification']);
 

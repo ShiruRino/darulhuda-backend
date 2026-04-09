@@ -21,7 +21,7 @@
     @endif
     @if($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="icon fas fa-exclamation-triangle mr-2"></i>Terjadi kesalahan saat menyimpan data. Pastikan semua kolom wajib diisi.
+            <i class="icon fas fa-exclamation-triangle mr-2"></i>Terjadi kesalahan saat menyimpan data. Pastikan semua kolom wajib diisi dan ukuran file tidak melebihi batas.
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         </div>
     @endif
@@ -103,8 +103,9 @@
                             </td>
                             <td class="text-center align-middle">
                                 @if($row->attachment_url)
-                                    <a href="{{ $row->attachment_url }}" target="_blank" class="btn btn-sm btn-outline-info" title="Lihat Lampiran">
-                                        <i class="fas fa-link"></i> Link
+                                    {{-- Menggunakan asset() untuk memanggil file fisik dari storage --}}
+                                    <a href="{{ asset('storage/' . $row->attachment_url) }}" target="_blank" class="btn btn-sm btn-outline-info" title="Lihat Lampiran">
+                                        <i class="fas fa-paperclip"></i> Lihat File
                                     </a>
                                 @else
                                     <span class="text-muted small">-</span>
@@ -126,7 +127,8 @@
                         {{-- Modal Edit Pengumuman --}}
                         <div class="modal fade text-left" id="modalEdit{{ $row->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
-                                <form action="{{ route('admin.announcements.update', $row->id) }}" method="POST">
+                                {{-- PERHATIAN: Tambahkan enctype multipart/form-data --}}
+                                <form action="{{ route('admin.announcements.update', $row->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf @method('PUT')
                                     <div class="modal-content">
                                         <div class="modal-header bg-warning">
@@ -143,9 +145,19 @@
                                                 <textarea name="content" class="form-control" rows="6" required>{{ $row->content }}</textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>URL Lampiran (Opsional)</label>
-                                                <input type="url" name="attachment_url" class="form-control" value="{{ $row->attachment_url }}" placeholder="https://...">
-                                                <small class="text-muted">Gunakan link Google Drive, Docs, atau link eksternal lainnya jika ada dokumen terkait.</small>
+                                                <label>File Lampiran (Opsional)</label>
+                                                
+                                                {{-- Tampilkan tombol lihat file jika file sudah ada --}}
+                                                @if($row->attachment_url)
+                                                    <div class="mb-2">
+                                                        <a href="{{ asset('storage/' . $row->attachment_url) }}" target="_blank" class="btn btn-sm btn-info">
+                                                            <i class="fas fa-file-download mr-1"></i> Lihat File Saat Ini
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                                
+                                                <input type="file" name="attachment_file" class="form-control-file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+                                                <small class="text-muted">Biarkan kosong jika tidak ingin mengubah/mengganti file lampiran saat ini.</small>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -175,7 +187,8 @@
     {{-- Modal Tambah Pengumuman --}}
     <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form action="{{ route('admin.announcements.store') }}" method="POST">
+            {{-- PERHATIAN: Tambahkan enctype multipart/form-data --}}
+            <form action="{{ route('admin.announcements.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
@@ -192,9 +205,9 @@
                             <textarea name="content" class="form-control" rows="6" placeholder="Ketik isi pengumuman yang ingin disampaikan kepada orang tua santri..." required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>URL Lampiran (Opsional)</label>
-                            <input type="url" name="attachment_url" class="form-control" placeholder="https://...">
-                            <small class="text-muted">Masukkan URL valid (http/https). Kosongkan jika tidak ada lampiran.</small>
+                            <label>File Lampiran (Opsional)</label>
+                            <input type="file" name="attachment_file" class="form-control-file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+                            <small class="text-muted">Pilih file dari perangkat Anda (Format: PDF, JPG, PNG, DOC/DOCX).</small>
                         </div>
                     </div>
                     <div class="modal-footer">

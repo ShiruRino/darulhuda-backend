@@ -149,7 +149,8 @@
     new Chart(ctxPie, {
         type: 'pie',
         data: {
-            labels: ['Puas', 'Tidak Puas', 'Belum Isi'],
+            // UBAH BARIS INI: Tambahkan keterangan (Rating 4-5) dan (Rating 1-3)
+            labels: ['Puas (Rating 4-5)', 'Tidak Puas (Rating 1-3)', 'Belum Ada Penilaian'],
             datasets: [{
                 data: {!! json_encode($chart3Data) !!},
                 backgroundColor: ['#00a65a', '#f56954', '#d2d6de'], // Hijau, Merah, Abu-abu

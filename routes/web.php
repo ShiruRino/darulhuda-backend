@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\ParentUserController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\StudentGuidanceController;
 use App\Http\Controllers\Admin\SurveyController;
@@ -69,6 +70,10 @@ Route::prefix('admin')->group(function () {
         // Manajemen Survei
         Route::get('/surveys', [SurveyController::class, 'index'])->name('admin.surveys.index');
         Route::post('/surveys', [SurveyController::class, 'store'])->name('admin.surveys.store');
+        
+        // TAMBAHKAN ROUTE INI:
+        Route::get('/surveys/{id}/responses', [SurveyController::class, 'showResponses'])->name('admin.surveys.responses');
+        
         Route::patch('/surveys/{id}/status', [SurveyController::class, 'toggleStatus'])->name('admin.surveys.status');
         Route::delete('/surveys/{id}', [SurveyController::class, 'destroy'])->name('admin.surveys.destroy');
     
@@ -80,5 +85,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile.index');
         Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('admin.profile.update');
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('admin.profile.password');
+
+        // Pengaturan Aplikasi
+        Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings.index');
+        Route::put('/settings', [SettingController::class, 'update'])->name('admin.settings.update');
     });
 });

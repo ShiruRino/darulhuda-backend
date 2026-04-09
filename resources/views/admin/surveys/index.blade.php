@@ -86,6 +86,9 @@
                                 </form>
                             </td>
                             <td class="text-center align-middle">
+                                <a href="{{ route('admin.surveys.responses', $survey->id) }}" class="btn btn-sm btn-success" title="Lihat Hasil Responden">
+                                    <i class="fas fa-users"></i> Hasil
+                                </a>
                                 <form action="{{ route('admin.surveys.destroy', $survey->id) }}" method="POST" onsubmit="return confirm('Peringatan: Menghapus survei akan ikut menghapus semua data jawaban dari orang tua. Lanjutkan?');">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" title="Hapus Permanen">
@@ -105,7 +108,7 @@
         </div>
         <div class="card-footer clearfix">
             <div class="float-right">
-                {{ $surveys->links() }}
+                {{ $surveys->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

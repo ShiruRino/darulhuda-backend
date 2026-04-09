@@ -371,9 +371,14 @@ return [
         ],
         ['header' => 'PENGATURAN'],
         [
-            'text' => 'Akun Admin',
+            'text' => 'Pengaturan Sistem',
+            'route'  => 'admin.settings.index',
+            'icon' => 'fas fa-fw fa-cogs',
+        ],
+        [
+            'text' => 'Profil Admin',
             'route'  => 'admin.profile.index',
-            'icon' => 'fas fa-fw fa-user-cog',
+            'icon' => 'fas fa-fw fa-user-shield',
         ],
     ],
 

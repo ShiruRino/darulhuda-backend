@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Relasi ke parent
         $table->text('message');
-        $table->enum('satisfaction', ['satiesfied', 'not_satisfied'])->nullable(); // 1-5 bintang
+        $table->tinyInteger('rating'); // Menyimpan angka 1 sampai 5
         $table->boolean('is_read')->default(false);
         $table->timestamps();
     });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('feedbacks');
     }
 };
